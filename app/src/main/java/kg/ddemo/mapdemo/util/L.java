@@ -1,4 +1,4 @@
-package com.yck.ktc.util;
+package kg.ddemo.mapdemo.util;
 
 import android.util.Log;
 

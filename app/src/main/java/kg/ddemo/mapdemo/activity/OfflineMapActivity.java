@@ -32,7 +32,6 @@ import java.util.List;
 import kg.ddemo.mapdemo.R;
 
 
-
 /**
  * AMapV2地图中简单介绍离线地图下载
  */

@@ -30,11 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
+      <!--  <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" >
-        </service>
+        </service>-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="2c4dfeb3a7d24960090bff890b2d134d" />

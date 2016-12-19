@@ -7,7 +7,9 @@
 * @version revision: 1.0 2016年2月28日下午5:07:55 
 */
 
-package com.yck.ktc.util;
+package kg.ddemo.mapdemo.util;
+
+import java.text.SimpleDateFormat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

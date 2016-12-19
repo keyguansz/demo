@@ -1,4 +1,4 @@
-package tiny.args.prof.dji.mapdemo;
+package kg.ddemo.mapdemo;///
 
 import android.app.Application;
 import android.os.RemoteException;
@@ -15,7 +15,7 @@ import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
 import org.xutils.HttpManager;
 
-import tiny.args.prof.dji.mapdemo.util.CrashHandlerUtil;
+import kg.ddemo.mapdemo.util.CrashHandlerUtil;
 
 /**
 * <p>ClassName:MyApplication类</p>
@@ -23,7 +23,7 @@ import tiny.args.prof.dji.mapdemo.util.CrashHandlerUtil;
 * @author WangJinShan
 * @version revision: 1.0 2016年3月2日下午11:27:49 
 */
-@ReportsCrashes(formKey = "" 
+@ReportsCrashes(formKey = ""
 			 	,mailTo = "yuanchuangke@foxmail.com" 
 				,customReportContent = {
 					ReportField.APP_VERSION_NAME, ReportField.APP_VERSION_CODE, ReportField.ANDROID_VERSION,
