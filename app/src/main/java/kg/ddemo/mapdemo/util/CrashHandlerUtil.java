@@ -46,7 +46,7 @@ public class CrashHandlerUtil implements UncaughtExceptionHandler {
 
 	/**
 	 * 初始化
-	 * 
+	 * deveMain
 	 * @param context
 	 */
 	public void init(Context context) {
