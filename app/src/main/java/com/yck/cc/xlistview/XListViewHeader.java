@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import tiny.args.prof.dji.mapdemo.R;
+import kg.ddemo.mapdemo.R;
 
 public class XListViewHeader extends LinearLayout {
 	private LinearLayout mContainer;

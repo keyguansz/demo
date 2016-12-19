@@ -1,369 +1,414 @@
-package tiny.args.prof.dji.mapdemo.activity;
+package kg.ddemo.mapdemo.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapException;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.offlinemap.OfflineMapCity;
 import com.amap.api.maps.offlinemap.OfflineMapManager;
-import com.baidu.mapapi.map.offline.MKOLSearchRecord;
-import com.baidu.mapapi.map.offline.MKOLUpdateElement;
-import com.baidu.mapapi.map.offline.MKOfflineMap;
-import com.baidu.mapapi.map.offline.MKOfflineMapListener;
-import com.yck.cc.CustomDialog;
+import com.amap.api.maps.offlinemap.OfflineMapManager.OfflineMapDownloadListener;
+import com.amap.api.maps.offlinemap.OfflineMapProvince;
+import com.amap.api.maps.offlinemap.OfflineMapStatus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import tiny.args.prof.dji.mapdemo.R;
+import kg.ddemo.mapdemo.R;
 
 
-public class OfflineMapActivity extends Activity implements OnClickListener,MKOfflineMapListener{
-	
-	private ImageView _iv_offline_map_back;
-	private Button _b_city_list;
-	private Button _b_local_map;
-	private Button _b_offline_map_search;
-	private Button _b_map_start;
-	private Button _b_map_stop;
-	private Button _b_map_del;
-	private LinearLayout _ll_city_list;
-	private LinearLayout _ll_local_map;
-	private EditText _et_map_city;
-	private TextView _tv_map_state;
-	private CustomDialog dialog;
-	//离线地图相关
-	private MKOfflineMap mOffline = null;
-	private int cityId = 218;//武汉(218)
-	private String cityName = "深圳市";
-	/**
-	 * 已下载的离线地图信息列表
-	 */
-	private ArrayList<MKOLUpdateElement> localMapList = null;
-	private LocalMapAdapter lAdapter = null;
-	
-	@Override
+
+/**
+ * AMapV2地图中简单介绍离线地图下载
+ */
+public class OfflineMapActivity extends Activity implements
+		OfflineMapDownloadListener {
+	private OfflineMapManager amapManager = null;// 离线地图下载控制器
+	private List<OfflineMapProvince> provinceList = new ArrayList<OfflineMapProvince>();// 保存一级目录的省直辖市
+	private HashMap<Object, List<OfflineMapCity>> cityMap = new HashMap<Object, List<OfflineMapCity>>();// 保存二级目录的市
+	private int groupPosition;// 记录一级目录的position
+	private int childPosition;// 记录二级目录的position
+	private int completeCode;// 记录下载比例
+	private boolean isStart = false;// 判断是否开始下载,true表示开始下载，false表示下载失败
+	private boolean[] isOpen;// 记录一级目录是否打开
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//在使用SDK各组件之前初始化context信息，传入ApplicationContext  
-        //注意该方法要再setContentView方法之前实现 
+		/*
+		 * 设置离线地图存储目录，在下载离线地图或初始化地图设置; 使用过程中可自行设置, 若自行设置了离线地图存储的路径，
+		 * 则需要在离线地图下载和使用地图页面都进行路径设置
+		 */
+		// Demo中为了其他界面可以使用下载的离线地图，使用默认位置存储，屏蔽了自定义设置
+		// MapsInitialihenger.sdcardDir =OffLineMapUtils.getSdCacheDir(this);
+		setContentView(R.layout.offlinemap_activity);
+		init();
+	}
 
-		setContentView(R.layout.a_offline_map);
-		mOffline = new MKOfflineMap();
-		mOffline.init(this);
+	private MapView mapView;
 
-		//构造OfflineMapManager对象
-		AMap map = amapView.getMap();
-		OfflineMapManager amapManager = new OfflineMapManager(this, this);
-		initView();
-	}
-	private void initView(){
-		// 打开软件，是不需要出现软键盘的，因此需要隐藏掉
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		_iv_offline_map_back = (ImageView)findViewById(R.id.iv_offline_map_back);
-		_b_city_list = (Button)findViewById(R.id.b_city_list);
-		_b_local_map = (Button)findViewById(R.id.b_local_map);
-		_b_offline_map_search = (Button)findViewById(R.id.b_offline_map_search);
-		_b_map_start = (Button)findViewById(R.id.b_map_start);
-		_b_map_stop = (Button)findViewById(R.id.b_map_stop);
-		_b_map_del = (Button)findViewById(R.id.b_map_del);
-		_ll_city_list = (LinearLayout)findViewById(R.id.ll_city_list);
-		_ll_local_map = (LinearLayout)findViewById(R.id.ll_local_map);
-		_et_map_city = (EditText)findViewById(R.id.et_map_city);
-		_tv_map_state = (TextView)findViewById(R.id.tv_map_state);
-		
-		ListView hotCityList = (ListView) findViewById(R.id.lv_hot_city);
-		ArrayList<String> hotCities = new ArrayList<String>();
-		// 获取热门城市列表
-		final ArrayList<MKOLSearchRecord> records1 = mOffline.getHotCityList();
-		if (records1 != null) {
-			for (MKOLSearchRecord r : records1) {
-				hotCities.add(r.cityName + "(" + r.cityID + ")" + "   --"
-						+ this.formatDataSize(r.size));
-			}
-		}
-		ListAdapter hAdapter = (ListAdapter) new ArrayAdapter<String>(this,
-				R.layout.offline_map_city_item, hotCities);
-		hotCityList.setAdapter(hAdapter);
-		hotCityList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-				// TODO Auto-generated method stub
-				cityId = records1.get(position).cityID;
-				cityName = records1.get(position).cityName;
-				clickOfflineMap();
-			}
-		});
-		ListView allCityList = (ListView) findViewById(R.id.lv_all_city);
-		// 获取所有支持离线地图的城市
-		ArrayList<String> allCities = new ArrayList<String>();
-		final ArrayList<MKOLSearchRecord> records2 = mOffline.getOfflineCityList();
-		if (records1 != null) {
-			for (MKOLSearchRecord r : records2) {
-				allCities.add(r.cityName + "(" + r.cityID + ")" + "   --"
-						+ this.formatDataSize(r.size));
-			}
-		}
-		ListAdapter aAdapter = (ListAdapter) new ArrayAdapter<String>(this,
-				R.layout.offline_map_city_item, allCities);
-		allCityList.setAdapter(aAdapter);
-		allCityList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-				// TODO Auto-generated method stub
-				cityId = records2.get(position).cityID;
-				cityName = records2.get(position).cityName;
-				clickOfflineMap();
-			}
-		});
-		_ll_local_map.setVisibility(View.GONE);
-		_ll_city_list.setVisibility(View.VISIBLE);
-
-		// 获取已下过的离线地图信息
-		localMapList = mOffline.getAllUpdateInfo();
-		if (localMapList == null) {
-			localMapList = new ArrayList<MKOLUpdateElement>();
-		}
-
-		ListView localMapListView = (ListView) findViewById(R.id.lv_local_map);
-		lAdapter = new LocalMapAdapter();
-		localMapListView.setAdapter(lAdapter);
-		
-		
-		_iv_offline_map_back.setOnClickListener(this);
-		_b_city_list.setOnClickListener(this);
-		_b_local_map.setOnClickListener(this);
-		_b_offline_map_search.setOnClickListener(this);
-		_b_map_start.setOnClickListener(this);
-		_b_map_stop.setOnClickListener(this);
-		_b_map_del.setOnClickListener(this);
-	}
-	@Override
-	public void onClick(View v) {
-		int n_id = v.getId();
-		if(R.id.iv_offline_map_back == n_id){
-			finish();
-		}else if(R.id.b_local_map == n_id){
-			_b_local_map.setBackgroundResource(R.drawable.left_while_borde_rounded_focused);
-			_b_local_map.setTextColor(getResources().getColor(R.color.theme_color));
-			_b_city_list.setBackgroundResource(R.drawable.right_while_borde_rounded);
-			_b_city_list.setTextColor(getResources().getColor(R.color.white));
-			_ll_city_list.setVisibility(View.GONE);//显示下载管理
-			_ll_local_map.setVisibility(View.VISIBLE);
-		}else if(R.id.b_city_list == n_id){
-			_b_local_map.setBackgroundResource(R.drawable.left_while_borde_rounded);
-			_b_local_map.setTextColor(getResources().getColor(R.color.white));
-			_b_city_list.setBackgroundResource(R.drawable.right_while_borde_rounded_focused);
-			_b_city_list.setTextColor(getResources().getColor(R.color.theme_color));
-			_ll_city_list.setVisibility(View.VISIBLE);//显示城市列表
-			_ll_local_map.setVisibility(View.GONE);
-		}else if(R.id.b_offline_map_search == n_id){
-			ArrayList<MKOLSearchRecord> records = mOffline.searchCity(_et_map_city
-	                .getText().toString());
-	        if (records == null || records.size() != 1) {
-	        	Toast.makeText(OfflineMapActivity.this,"抱歉，未搜索到结果", Toast.LENGTH_LONG)
-				.show();
-	            return;
-	        }
-	        cityId = records.get(0).cityID;//搜索成功，获取城市ID
-	        cityName = records.get(0).cityName;
-			clickOfflineMap();
-		}else if(R.id.b_map_start == n_id){
-			mOffline.start(cityId);
-			Toast.makeText(OfflineMapActivity.this, "开始下载离线地图. cityid: " + cityId, Toast.LENGTH_SHORT)
-					.show();
-			updateView();
-		}else if(R.id.b_map_stop == n_id){
-			mOffline.pause(cityId);
-			Toast.makeText(OfflineMapActivity.this, "暂停下载离线地图. cityid: " + cityId, Toast.LENGTH_SHORT)
-					.show();
-			updateView();
-		}else if(R.id.b_map_del == n_id){
-			mOffline.remove(cityId);
-			Toast.makeText(OfflineMapActivity.this, "删除离线地图. cityid: " + cityId, Toast.LENGTH_SHORT)
-					.show();
-			updateView();
-		}
-	}
-	private void clickOfflineMap(){
-		CustomDialog.Builder customBuilder = new
-				CustomDialog.Builder(OfflineMapActivity.this);
-		customBuilder.setMessage("现在开始下载 " + cityName + " 的离线地图吗？")
-		.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-			}
-		})
-		.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface arg0, int which) {
-				// TODO Auto-generated method stub
-				dialog.dismiss();
-				_ll_city_list.setVisibility(View.GONE);//显示下载管理
-				_ll_local_map.setVisibility(View.VISIBLE);
-				mOffline.start(cityId);
-				Toast.makeText(OfflineMapActivity.this, "开始下载离线地图. cityid: " + cityId, Toast.LENGTH_SHORT)
-						.show();
-				updateView();
-			}
-		});
-		dialog = customBuilder.create();
-		dialog.show();
-	}
-	@Override
-	public void onGetOfflineMapState(int type, int state) {
-		switch (type) {
-		case MKOfflineMap.TYPE_DOWNLOAD_UPDATE: {
-			MKOLUpdateElement update = mOffline.getUpdateInfo(state);
-			// 处理下载进度更新提示
-			if (update != null) {
-				_tv_map_state.setText(String.format("%s : %d%%", update.cityName,
-						update.ratio));
-				updateView();
-			}
-		}
-			break;
-		case MKOfflineMap.TYPE_NEW_OFFLINE:
-			// 有新离线地图安装
-			Log.d("OfflineDemo", String.format("add offlinemap num:%d", state));
-			break;
-		case MKOfflineMap.TYPE_VER_UPDATE:
-			// 版本更新提示
-			// MKOLUpdateElement e = mOffline.getUpdateInfo(state);
-
-                break;
-            default:
-                break;
-        }
-	}
-	
-	public void updateView() {
-		localMapList = mOffline.getAllUpdateInfo();
-		if (localMapList == null) {
-			localMapList = new ArrayList<MKOLUpdateElement>();
-		}
-		lAdapter.notifyDataSetChanged();
-	}
 	/**
-	 * 离线地图管理列表适配器
+	 * 初始化UI布局文件
 	 */
-	public class LocalMapAdapter extends BaseAdapter {
-
-		@Override
-		public int getCount() {
-			return localMapList.size();
-		}
-
-		@Override
-		public Object getItem(int index) {
-			return localMapList.get(index);
-		}
-
-		@Override
-		public long getItemId(int index) {
-			return index;
-		}
-
-		@Override
-		public View getView(int index, View view, ViewGroup arg2) {
-			MKOLUpdateElement e = (MKOLUpdateElement) getItem(index);
-			view = View.inflate(OfflineMapActivity.this,
-					R.layout.offline_localmap_list_item, null);
-			initViewItem(view, e);
-			return view;
-		}
-
-		void initViewItem(View view, final MKOLUpdateElement e) {
-			Button display = (Button) view.findViewById(R.id.b_offline_display);
-			Button remove = (Button) view.findViewById(R.id.b_offline_remove);
-			TextView title = (TextView) view.findViewById(R.id.tv_offline_title);
-			TextView update = (TextView) view.findViewById(R.id.tv_offline_update);
-			TextView ratio = (TextView) view.findViewById(R.id.tv_offline_ratio);
-			ratio.setText(e.ratio + "%");
-			title.setText(e.cityName);
-			if (e.update) {
-				update.setText("可更新");
+	private void init() {
+		// 此版本限制，使用离线地图，请初始化一个MapView
+		mapView = new MapView(this);
+		amapManager = new OfflineMapManager(this, this);
+		ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.list);
+		expandableListView.setGroupIndicator(null);
+		provinceList = amapManager.getOfflineMapProvinceList();
+		List<OfflineMapProvince> bigCityList = new ArrayList<OfflineMapProvince>();// 以省格式保存直辖市、港澳、全国概要图
+		List<OfflineMapCity> cityList = new ArrayList<OfflineMapCity>();// 以市格式保存直辖市、港澳、全国概要图
+		List<OfflineMapCity> gangaoList = new ArrayList<OfflineMapCity>();// 保存港澳城市
+		List<OfflineMapCity> gaiyaotuList = new ArrayList<OfflineMapCity>();// 保存概要图
+		for (int i = 0; i < provinceList.size(); i++) {
+			OfflineMapProvince offlineMapProvince = provinceList.get(i);
+			List<OfflineMapCity> city = new ArrayList<OfflineMapCity>();
+			OfflineMapCity aMapCity = getCicy(offlineMapProvince);
+			if (offlineMapProvince.getCityList().size() != 1) {
+				city.add(aMapCity);
+				city.addAll(offlineMapProvince.getCityList());
 			} else {
-				update.setText("最新");
+				cityList.add(aMapCity);
+				bigCityList.add(offlineMapProvince);
 			}
-			if (e.ratio != 100) {
-				display.setEnabled(false);
+			cityMap.put(i + 3, city);
+		}
+		OfflineMapProvince title = new OfflineMapProvince();
+
+		title.setProvinceName("概要图");
+		provinceList.add(0, title);
+		title = new OfflineMapProvince();
+		title.setProvinceName("直辖市");
+		provinceList.add(1, title);
+		title = new OfflineMapProvince();
+		title.setProvinceName("港澳");
+		provinceList.add(2, title);
+		provinceList.removeAll(bigCityList);
+
+		for (OfflineMapProvince aMapProvince : bigCityList) {
+			if (aMapProvince.getProvinceName().contains("香港")
+					|| aMapProvince.getProvinceName().contains("澳门")) {
+				gangaoList.add(getCicy(aMapProvince));
+			} else if (aMapProvince.getProvinceName().contains("全国概要图")) {
+				gaiyaotuList.add(getCicy(aMapProvince));
+			}
+		}
+		try {
+			cityList.remove(4);// 从List集合体中删除香港
+			cityList.remove(4);// 从List集合体中删除澳门
+			cityList.remove(4);// 从List集合体中删除全国概要图
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		cityMap.put(0, gaiyaotuList);// 在HashMap中第0位置添加全国概要图
+		cityMap.put(1, cityList);// 在HashMap中第1位置添加直辖市
+		cityMap.put(2, gangaoList);// 在HashMap中第2位置添加港澳
+		isOpen = new boolean[provinceList.size()];
+		// 为列表绑定数据源
+		expandableListView.setAdapter(adapter);
+		expandableListView
+				.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+
+					@Override
+					public void onGroupCollapse(int groupPosition) {
+						;
+						isOpen[groupPosition] = false;
+					}
+				});
+
+		expandableListView
+				.setOnGroupExpandListener(new OnGroupExpandListener() {
+
+					@Override
+					public void onGroupExpand(int groupPosition) {
+						isOpen[groupPosition] = true;
+					}
+				});
+		// 设置二级item点击的监听器
+		expandableListView.setOnChildClickListener(new OnChildClickListener() {
+
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+										int groupPosition, int childPosition, long id) {
+				try {
+					// 下载全国概要图、直辖市、港澳离线地图数据
+					if (groupPosition == 0 || groupPosition == 1
+							|| groupPosition == 2) {
+						isStart = amapManager.downloadByProvinceName(cityMap
+								.get(groupPosition).get(childPosition)
+								.getCity());
+					}
+					// 下载各省的离线地图数据
+					else {
+						// 下载各省列表中的省份离线地图数据
+						if (childPosition == 0) {
+							isStart = amapManager
+									.downloadByProvinceName(provinceList.get(
+											groupPosition).getProvinceName());
+						}
+						// 下载各省列表中的城市离线地图数据
+						else if (childPosition > 0) {
+							isStart = amapManager.downloadByCityName(cityMap
+									.get(groupPosition).get(childPosition)
+									.getCity());
+						}
+					}
+				} catch (AMapException e) {
+					e.printStackTrace();
+					Log.e("离线地图下载", "离线地图下载抛出异常" + e.getErrorMessage());
+				}
+				// 保存当前正在正在下载省份或者城市的position位置
+				if (isStart) {
+					OfflineMapActivity.this.groupPosition = groupPosition;
+					OfflineMapActivity.this.childPosition = childPosition;
+				}
+				return false;
+			}
+		});
+	}
+
+	/**
+	 * 把一个省的对象转化为一个市的对象
+	 */
+	public OfflineMapCity getCicy(OfflineMapProvince aMapProvince) {
+		OfflineMapCity aMapCity = new OfflineMapCity();
+		aMapCity.setCity(aMapProvince.getProvinceName());
+		aMapCity.setSize(aMapProvince.getSize());
+		aMapCity.setCompleteCode(aMapProvince.getcompleteCode());
+		aMapCity.setState(aMapProvince.getState());
+		aMapCity.setUrl(aMapProvince.getUrl());
+		return aMapCity;
+	}
+
+	final ExpandableListAdapter adapter = new BaseExpandableListAdapter() {
+
+		@Override
+		public int getGroupCount() {
+			return provinceList.size();
+		}
+
+		/**
+		 * 获取一级标签内容
+		 */
+		@Override
+		public Object getGroup(int groupPosition) {
+			return provinceList.get(groupPosition).getProvinceName();
+		}
+
+		/**
+		 * 获取一级标签的ID
+		 */
+		@Override
+		public long getGroupId(int groupPosition) {
+			return groupPosition;
+		}
+
+		/**
+		 * 获取一级标签下二级标签的总数
+		 */
+		@Override
+		public int getChildrenCount(int groupPosition) {
+			return cityMap.get(groupPosition).size();
+		}
+
+		/**
+		 * 获取一级标签下二级标签的内容
+		 */
+		@Override
+		public Object getChild(int groupPosition, int childPosition) {
+			return cityMap.get(groupPosition).get(childPosition).getCity();
+		}
+
+		/**
+		 * 获取二级标签的ID
+		 */
+		@Override
+		public long getChildId(int groupPosition, int childPosition) {
+			return childPosition;
+		}
+
+		/**
+		 * 指定位置相应的组视图
+		 */
+		@Override
+		public boolean hasStableIds() {
+			return true;
+		}
+
+		/**
+		 * 对一级标签进行设置
+		 */
+		@Override
+		public View getGroupView(int groupPosition, boolean isExpanded,
+								 View convertView, ViewGroup parent) {
+			TextView group_text;
+			ImageView group_image;
+			if (convertView == null) {
+				convertView = (RelativeLayout) RelativeLayout.inflate(
+						getBaseContext(), R.layout.offlinemap_group, null);
+			}
+			group_text = (TextView) convertView.findViewById(R.id.group_text);
+			group_image = (ImageView) convertView
+					.findViewById(R.id.group_image);
+			group_text.setText(provinceList.get(groupPosition)
+					.getProvinceName());
+			if (isOpen[groupPosition]) {
+				group_image.setImageDrawable(getResources().getDrawable(
+						R.drawable.downarrow));
 			} else {
-				display.setEnabled(true);
+				group_image.setImageDrawable(getResources().getDrawable(
+						R.drawable.rightarrow));
 			}
-			remove.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					mOffline.remove(e.cityID);
-					updateView();
-				}
-			});
-			display.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent();
-					intent.putExtra("x", e.geoPt.longitude);
-					intent.putExtra("y", e.geoPt.latitude);
-					intent.setClass(OfflineMapActivity.this, OfflineMapDisplayActivity.class);
-					startActivity(intent);
-				}
-			});
+			return convertView;
 		}
 
-	}
-	@Override
-	protected void onPause() {
-		MKOLUpdateElement temp = mOffline.getUpdateInfo(cityId);
-		if (temp != null && temp.status == MKOLUpdateElement.DOWNLOADING) {
-			mOffline.pause(cityId);
+		/**
+		 * 对一级标签下的二级标签进行设置
+		 */
+		@Override
+		public View getChildView(final int groupPosition,
+								 final int childPosition, boolean isLastChild, View convertView,
+								 ViewGroup parent) {
+			if (convertView == null) {
+				convertView = (RelativeLayout) RelativeLayout.inflate(
+						getBaseContext(), R.layout.offlinemap_child, null);
+			}
+			ViewHolder holder = new ViewHolder(convertView);
+			holder.cityName.setText(cityMap.get(groupPosition)
+					.get(childPosition).getCity());
+			holder.citySize.setText((cityMap.get(groupPosition).get(
+					childPosition).getSize())
+					/ (1024 * 1024f) + "MB");
+
+			if (cityMap.get(groupPosition).get(childPosition).getState() == OfflineMapStatus.SUCCESS) {
+				holder.cityDown.setText("安装完成");
+			} else if (cityMap.get(groupPosition).get(childPosition).getState() == OfflineMapStatus.LOADING) {
+				if (groupPosition == OfflineMapActivity.this.groupPosition
+						&& childPosition == OfflineMapActivity.this.childPosition) {
+					holder.cityDown.setText("正在下载" + completeCode + "%");
+				}
+			} else if (cityMap.get(groupPosition).get(childPosition).getState() == OfflineMapStatus.UNZIP) {
+				holder.cityDown.setText("正在解压" + completeCode + "%");
+			} else if (cityMap.get(groupPosition).get(childPosition).getState() == OfflineMapStatus.LOADING) {
+				holder.cityDown.setText("下载");
+			}
+			return convertView;
 		}
-		super.onPause();
-	}
 
+		class ViewHolder {
+			TextView cityName;
+			TextView citySize;
+			TextView cityDown;
+
+			public ViewHolder(View view) {
+				cityName = (TextView) view.findViewById(R.id.city_name);
+				citySize = (TextView) view.findViewById(R.id.city_size);
+				cityDown = (TextView) view.findViewById(R.id.city_down);
+			}
+		}
+
+		/**
+		 * 当选择子节点的时候，调用该方法
+		 */
+		@Override
+		public boolean isChildSelectable(int groupPosition, int childPosition) {
+			return true;
+		}
+
+	};
+
+	/**
+	 * 离线地图下载回调方法
+	 */
 	@Override
-	protected void onResume() {
-		super.onResume();
+	public void onDownload(int status, int completeCode, String downName) {
+		switch (status) {
+			case OfflineMapStatus.SUCCESS:
+				changeOfflineMapTitle(OfflineMapStatus.SUCCESS);
+				break;
+			case OfflineMapStatus.LOADING:
+				OfflineMapActivity.this.completeCode = completeCode;
+				break;
+			case OfflineMapStatus.UNZIP:
+				OfflineMapActivity.this.completeCode = completeCode;
+				changeOfflineMapTitle(OfflineMapStatus.UNZIP);
+				break;
+			case OfflineMapStatus.WAITING:
+				break;
+			case OfflineMapStatus.PAUSE:
+				break;
+			case OfflineMapStatus.STOP:
+				break;
+			case OfflineMapStatus.ERROR:
+				break;
+			default:
+				break;
+		}
+		((BaseExpandableListAdapter) adapter).notifyDataSetChanged();
 	}
 
-	public String formatDataSize(int size) {
-		String ret = "";
-		if (size < (1024 * 1024)) {
-			ret = String.format("%dK", size / 1024);
+	/**
+	 * 更改离线地图下载状态文字
+	 */
+	private void changeOfflineMapTitle(int status) {
+		if (groupPosition == 0 || groupPosition == 1 || groupPosition == 2) {
+			cityMap.get(groupPosition).get(childPosition).setState(status);
 		} else {
-			ret = String.format("%.1fM", size / (1024 * 1024.0));
+			if (childPosition == 0) {
+				for (int i = 0; i < cityMap.get(groupPosition).size(); i++) {
+					cityMap.get(groupPosition).get(i).setState(status);//
+				}
+			} else {
+				cityMap.get(groupPosition).get(childPosition).setState(status);
+			}
 		}
-		return ret;
+	}
+
+	/**
+	 * 获取map 缓存和读取目录
+	 */
+	private String getSdCacheDir(Context context) {
+		if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)) {
+			java.io.File fExternalStorageDirectory = Environment
+					.getExternalStorageDirectory();
+			java.io.File autonaviDir = new java.io.File(
+					fExternalStorageDirectory, "amapsdk");
+			boolean result = false;
+			if (!autonaviDir.exists()) {
+				result = autonaviDir.mkdir();
+			}
+			java.io.File minimapDir = new java.io.File(autonaviDir,
+					"offlineMap");
+			if (!minimapDir.exists()) {
+				result = minimapDir.mkdir();
+			}
+			return minimapDir.toString() + "/";
+		} else {
+			return "";
+		}
 	}
 
 	@Override
 	protected void onDestroy() {
-		/**
-		 * 退出时，销毁离线地图模块
-		 */
-		mOffline.destroy();
 		super.onDestroy();
+		if (mapView != null) {
+			mapView.onDestroy();
+		}
 	}
 }

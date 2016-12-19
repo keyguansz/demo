@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import tiny.args.prof.dji.mapdemo.R;
+import kg.ddemo.mapdemo.R;
 
 public class XListView extends ListView implements OnScrollListener {
 

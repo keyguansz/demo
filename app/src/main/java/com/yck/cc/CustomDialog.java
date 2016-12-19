@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import tiny.args.prof.dji.mapdemo.R;
+import kg.ddemo.mapdemo.R;
 
 
 public class CustomDialog extends Dialog {
