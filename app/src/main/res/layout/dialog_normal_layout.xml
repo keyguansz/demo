@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_dialog_bg_selector"
+        android:orientation="vertical" >         
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/message"
+                style="@style/text_16_666666"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.5"
+                android:minHeight="120.0dip"
+                android:paddingBottom="15.0dip"
+                android:paddingLeft="20.0dip"
+                android:paddingRight="20.0dip"
+                android:paddingTop="15.0dip" />
+        </LinearLayout>
+		<!--中间插入的横条  -->
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:background="#ffd0d0d0" />
+		<!-- 确定取消按钮的布局 -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60.0dip"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/positiveButton"
+				android:background="#00ffffff"
+                android:layout_width="114.0dip"
+                android:layout_height="40.0dip"
+                android:gravity="center"
+                android:text="ok"
+                android:textColor="@drawable/custom_dialog_btn_selector"/>
+            
+            <View
+	           android:layout_width="1.0dip"
+	           android:layout_height="match_parent"
+               android:layout_marginLeft="10dip"	           
+	           android:background="#ffd0d0d0" />
+
+            <Button
+                android:id="@+id/negativeButton"
+				android:background="#00ffffff"
+                android:layout_width="114.0dip"
+                android:layout_height="40.0dip"
+                android:layout_marginLeft="10dip"
+                android:gravity="center"
+                android:text="cancel"
+                android:textColor="@drawable/custom_dialog_btn_selector"/>
+        </LinearLayout>
+</LinearLayout>
