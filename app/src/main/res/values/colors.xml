@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- demo资源开始 -->
+    <color name="main_green">#7ed321</color>
+    <color name="offlinemap_gray_4a">#4a4a4A</color>
+    <color name="offlinemap_gray_9b">#9b9b9b</color>
+
+    <!-- demo资源结束 -->
+
+    <!-- 界面背景色 -->
 
     <!-- 主色调和前景色start############################################ -->
     <!-- 界面背景色 -->

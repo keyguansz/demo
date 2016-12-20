@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="5dip"
+
     android:paddingLeft="40dip"
     android:paddingTop="5dip" >
 
@@ -12,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:text="城市名字"
-        android:textColor="#130c0e"
-        android:textSize="15sp" />
+        android:textColor="@color/offlinemap_gray_4a"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/city_size"
@@ -22,15 +23,28 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@id/city_name"
         android:text="城市大小"
-        android:textSize="15sp" />
+        android:textColor="@color/offlinemap_gray_9b"
+        android:textSize="10sp" />
 
     <TextView
-        android:id="@+id/city_down"
+        android:id="@+id/offlin_emap_item_down_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/city_name"
+        android:layout_centerHorizontal="true"
         android:text="down"
+        android:layout_centerVertical="true"
+
+        android:textColor="@color/offlinemap_gray_4a"
+        android:layout_marginRight="20dp"
         android:textSize="15sp" />
+    <ImageView
+        android:id="@+id/offline_map_item_down_img"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/offlinemap_group_down_start"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"/>
 
 </RelativeLayout>

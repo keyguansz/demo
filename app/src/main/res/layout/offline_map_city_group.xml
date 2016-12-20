@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="15dp"
+              android:orientation="horizontal"
+    >
+
+    <RelativeLayout
+        android:id="@+id/offlinemap_group_switch_root"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+
+        >
+
+        <TextView
+            android:id="@+id/offlinemap_group_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="直辖市"
+            android:textColor="@color/offlinemap_gray_4a"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/offlinemap_group_switch_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/offlinemap_group_title"
+            android:src="@drawable/offlinemap_group_switch_off"
+            />
+
+        <TextView
+            android:id="@+id/offlinemap_group_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/offlinemap_group_title"
+            android:text="大小"
+            android:textColor="@color/offlinemap_gray_9b"
+            android:textSize="10sp"/>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/offlinemap_group_down"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/offlinemap_group_down_start"
+        android:layout_alignParentRight="true"
+       />
+  <!--  <TextView
+        android:id="@+id/offlinemap_group_status"
+        android:text="status"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/downarrow"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"/>-->
+
+</LinearLayout>

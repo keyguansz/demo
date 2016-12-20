@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:paddingLeft="30dp"
+        >
+
+        <TextView
+            android:id="@+id/offlinemap_group_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="X个地区"
+            android:textColor="@color/offlinemap_gray_4a"
+            android:textSize="16sp"/>
+<!--
+        <ImageView
+            android:id="@+id/offlinemap_group_switch_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/offlinemap_group_title"
+            android:src="@drawable/offlinemap_group_switch_off"
+            />-->
+
+        <TextView
+            android:id="@+id/offlinemap_group_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/offlinemap_group_title"
+            android:text="大小"
+            android:textColor="@color/offlinemap_gray_9b"
+            android:textSize="10sp"/>
+    </RelativeLayout>
+
