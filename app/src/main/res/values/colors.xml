@@ -3,7 +3,9 @@
     <!-- demo资源开始 -->
     <color name="main_green">#7ed321</color>
     <color name="offlinemap_gray_4a">#4a4a4A</color>
+    <color name="offlinemap_red_ee">#ee0000</color>
     <color name="offlinemap_gray_9b">#9b9b9b</color>
+    <color name="offlinemap_gray_db">#dbdbdb</color>
 
     <!-- demo资源结束 -->
 

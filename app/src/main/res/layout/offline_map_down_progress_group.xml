@@ -2,9 +2,10 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:paddingLeft="30dp"
+        android:layout_height="match_parent"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
         >
 
         <TextView
@@ -12,19 +13,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="X个地区"
+            android:text="地区"
             android:textColor="@color/offlinemap_gray_4a"
             android:textSize="16sp"/>
-<!--
+
         <ImageView
             android:id="@+id/offlinemap_group_switch_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="2dp"
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/offlinemap_group_title"
-            android:src="@drawable/offlinemap_group_switch_off"
-            />-->
+            android:src="@drawable/offlinemap_group_switch_on"
+            />
 
         <TextView
             android:id="@+id/offlinemap_group_size"

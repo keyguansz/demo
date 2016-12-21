@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="5dip"
-    android:paddingLeft="40dip"
+                android:paddingLeft="15dp"
     android:paddingTop="5dip" >
 
     <TextView
-        android:id="@+id/city_name"
+        android:id="@+id/offline_map_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -16,7 +16,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/city_size"
+        android:id="@+id/offline_map_item_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -24,26 +24,47 @@
         android:text="城市大小"
         android:textColor="@color/offlinemap_gray_9b"
         android:textSize="10sp" />
-
-    <TextView
-        android:id="@+id/offlin_emap_item_down_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:text="down"
-        android:layout_centerVertical="true"
-
-        android:textColor="@color/offlinemap_gray_4a"
-        android:layout_marginRight="20dp"
-        android:textSize="15sp" />
     <ImageView
-        android:id="@+id/offline_map_item_down_img"
+        android:id="@+id/offline_map_item_state_img"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_centerVertical="true"
         android:src="@drawable/offlinemap_group_down_start"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"/>
+    <TextView
+        android:id="@+id/offline_map_item_state_desc"
+        android:layout_toStartOf="@+id/offline_map_item_state_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="down"
+        android:layout_centerVertical="true"
+        android:textColor="@color/offlinemap_gray_4a"
+        android:layout_marginRight="10dp"
 
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/offline_map_item_bar_desc"
+        android:layout_toStartOf="@+id/offline_map_item_state_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="10%"
+        android:layout_centerVertical="true"
+        android:textColor="@color/offlinemap_gray_4a"
+        android:layout_marginRight="10dp"
+        android:textSize="15sp" />
+
+    <ProgressBar
+        android:id="@+id/offline_map_item_bar"
+        android:layout_toStartOf="@+id/offline_map_item_bar_desc"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
+
+        android:layout_width="280dp"
+        android:layout_height="4dp"
+        android:layout_weight="1"
+        android:progressDrawable="@drawable/common_progress_bar"/>
 </RelativeLayout>

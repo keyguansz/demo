@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import kg.ddemo.mapdemo.R;
+import kg.ddemo.mapdemo.activity.adapter.OfflineMapDownProgressAdapter;
 import kg.ddemo.mapdemo.util.DJILogUtil;
 import kg.ddemo.mapdemo.util.FormatUtil;
 
@@ -81,7 +82,7 @@ public class OfflineAMapActivity extends Activity implements
 		mTabDownCompleteExLv = (ExpandableListView)findViewById(R.id.offlinemap_tab_down_complete);
 
 		//mTabDownProgressExLv
-		//mTabDownProgressExLv.setGroupIndicator(null);
+		mTabDownProgressExLv.setGroupIndicator(null);
 		OfflineMapDownProgressAdapter mOfflineMapDownProgressAdapter
 				= new OfflineMapDownProgressAdapter(getActivity(), mOfflineMapManager.getDownloadingCityList());
 		mTabDownProgressExLv.setAdapter(mOfflineMapDownProgressAdapter);
@@ -160,6 +161,7 @@ public class OfflineAMapActivity extends Activity implements
 			}
 		});
 		initHeader();
+		switchTab(TabType.down);
 	}
 
 	private void initCityTabData() {
@@ -229,14 +231,14 @@ public class OfflineAMapActivity extends Activity implements
 		mDownTabBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				swtichTab(TabType.down);
+				switchTab(TabType.down);
 			}
 		});
 		mCityTabBtn = (TextView)findViewById(R.id.offlinemap_tab_city_btn);
 		mCityTabBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				swtichTab(TabType.city);
+				switchTab(TabType.city);
 			}
 		});
 		mDownTabRoot = findViewById(R.id.offlinemap_tab_down);
@@ -244,17 +246,17 @@ public class OfflineAMapActivity extends Activity implements
 
 	}
 
-	private void swtichTab(int tabId) {
+	private void switchTab(int tabId) {
 		if( tabId == TabType.down ){
 			mDownTabBtn.setBackgroundResource(R.drawable.left_while_borde_rounded_focused);
 			mDownTabBtn.setTextColor(getResources().getColor(R.color.main_green));
-			mCityTabBtn.setBackgroundResource(R.drawable.left_while_borde_rounded);
+			mCityTabBtn.setBackgroundResource(R.drawable.right_while_borde_rounded);
 			mCityTabBtn.setTextColor(getResources().getColor(R.color.offlinemap_gray_9b));
 			mDownTabRoot.setVisibility(View.VISIBLE);
 			mCityTabRoot.setVisibility(View.GONE);
 			updateDownTabView();
 		}else if( tabId == TabType.city ){
-			mCityTabBtn.setBackgroundResource(R.drawable.left_while_borde_rounded_focused);
+			mCityTabBtn.setBackgroundResource(R.drawable.right_while_borde_rounded_focused);
 			mCityTabBtn.setTextColor(getResources().getColor(R.color.main_green));
 			mDownTabBtn.setBackgroundResource(R.drawable.left_while_borde_rounded);
 			mDownTabBtn.setTextColor(getResources().getColor(R.color.offlinemap_gray_9b));

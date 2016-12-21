@@ -20,7 +20,7 @@
         <shape>
 
             <!-- 主体颜色值 -->
-            <solid android:color="@color/theme_color" />
+            <solid android:color="@color/main_green" />
             <!-- 右边圆角值 -->
             <corners
                 android:bottomRightRadius="5dp"

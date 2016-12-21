@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/theme_color"
+        android:background="@color/main_green"
         android:gravity="center_vertical">
 
         <ImageView
@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:background="@drawable/left_while_borde_rounded"
                 android:text="下载管理"
-                android:textColor="@color/Text_black">
+                android:textColor="@color/offlinemap_gray_4a">
             </TextView>
 
             <TextView
@@ -42,13 +42,15 @@
                 android:background="@drawable/right_while_borde_rounded_focused"
                 android:orientation="horizontal"
                 android:text="城市列表"
-                android:textColor="@color/Text_black">
+                android:textColor="@color/offlinemap_gray_4a">
             </TextView>
         </LinearLayout>
     </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -58,24 +60,31 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/offlinemap_gray_9b"
                 android:text="下载队列"/>
 
             <ExpandableListView
                 android:id="@+id/offlinemap_tab_down_progress"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:cacheColorHint="#00000000"
-                android:childDivider="@android:color/darker_gray"
                 android:divider="@color/offlinemap_gray_9b"
-                android:dividerHeight="1.5dip"
+                android:childDivider="@color/offlinemap_gray_db"
+
+                android:dividerHeight="1dp"
                 android:listSelector="#00000000"/>
 
             <TextView
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/offlinemap_gray_9b"
                 android:text="下载完成"/>
 
             <ExpandableListView
@@ -84,9 +93,9 @@
                 android:layout_height="fill_parent"
                 android:background="#ffffff"
                 android:cacheColorHint="#00000000"
-                android:childDivider="@android:color/darker_gray"
+                android:childDivider="@color/offlinemap_gray_9b"
                 android:divider="@color/offlinemap_gray_9b"
-                android:dividerHeight="1.5dip"
+                android:dividerHeight="1dp"
                 android:listSelector="#00000000"/>
         </LinearLayout>
 
