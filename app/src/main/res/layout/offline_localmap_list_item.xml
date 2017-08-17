@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dip" >
+
+    <TextView
+        android:id="@+id/tv_offline_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="已下载城市 " />
+
+    <TextView
+        android:id="@+id/tv_offline_update"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text=""
+        android:textColor="#FF0000" />
+
+    <TextView
+        android:id="@+id/tv_offline_ratio"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="" />
+
+    <Button
+        android:id="@+id/b_offline_display"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/ktc_button_selector"
+        android:textColor="@color/white"
+        android:paddingTop="8dip"
+        android:paddingBottom="8dip"
+        android:text="查看" />
+
+    <Button
+        android:id="@+id/b_offline_remove"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="3dip"
+        android:background="@drawable/ktc_button_selector"
+        android:textColor="@color/white"
+        android:paddingTop="8dip"
+        android:paddingBottom="8dip"
+        android:text="删除" />
+
+</LinearLayout>

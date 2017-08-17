@@ -1,0 +1,161 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
+    <!-- 菜单项的图片的样式 -->
+    <style name="menu_item_img">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <!--菜单项的button的样式  -->
+    <style name="menu_item_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@drawable/a_main_menu_item_text_selector</item>
+    </style>
+
+    <!-- tab item 的风格样式 -->
+    <style name="position_tab_item">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingTop">8dip</item>
+        <item name="android:paddingBottom">4dip</item>
+        <item name="android:background">@drawable/a_main_tab_item_bg_selector</item>
+        <item name="android:textColor">@drawable/a_main_tab_item_text_selector</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <!-- Tab item之间的 插入条的 样式   用ImageView实现 -->
+    <!-- 	<style name="line_middle_style">
+            <item name="android:layout_width">1dp</item>
+            <item name="android:layout_height">match_parent</item>
+            <item name="android:src">@drawable/line_middle</item>
+            <item name="android:scaleType">centerCrop</item>
+            <item name="android:background">#E1E2E4</item>
+        </style>	 -->
+
+    <!--    Tab item之间的 插入条的 样式   用IView实现 -->
+    <style name="line_middle_style">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#E1E2E4</item>
+    </style>
+
+
+
+
+    <!--自定义对话框相关样式  -->
+    <style name="text_18_ffffff">
+        <item name="android:textSize">18.0dip</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+
+    <style name="text_16_666666">
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">#ff666666</item>
+    </style>
+
+    <style name="sdw_white">
+        <item name="android:shadowColor">#7fffffff</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">0.65</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+
+    <style name="sdw_79351b">
+        <item name="android:shadowColor">#ff79351b</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">1.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+
+    <style name="text_15_ffffff_sdw" parent="@style/sdw_79351b">
+        <item name="android:textSize">15.0dip</item>
+        <item name="android:textColor">#00000000</item>
+    </style>
+
+    <style name="text_15_666666_sdw" parent="@style/sdw_white">
+        <item name="android:textSize">15.0dip</item>
+        <item name="android:textColor">#ff666666</item>
+    </style>
+
+    <style name="Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <!--hehehehe -->
+    <style name="detail_cut_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">8.0dip</item>
+        <item name="android:layout_marginTop">6.0dip</item>
+        <item name="android:layout_marginBottom">2.0dip</item>
+        <item name="android:background">@color/grayLine</item>
+    </style>
+
+    <!--hehehehe个人中心的间隔条 -->
+    <style name="pc_cut_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1.0dip</item>
+        <item name="android:background">@color/grayLine</item>
+    </style>
+
+
+
+    <style name="pc_item_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">8.0dip</item>
+        <item name="android:background">@color/grayLine</item>
+    </style>
+
+    <style name="editText_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1.0dip</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_marginLeft">50dip</item>
+    </style>
+
+    <!--lessee_list_item中间的间隔条 -->
+    <style name="lessee_list_item_cut_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/grayLine</item>
+    </style>
+
+    <!--my_rent_list_item中间的间隔条 -->
+    <style name="a_my_rent_list_item_cut_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:background">@color/grayLine</item>
+    </style>
+
+    <style name="pay_list_padding">
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingRight">10dip</item>
+        <item name="android:paddingTop">8dip</item>
+        <item name="android:paddingBottom">8dip</item>
+    </style>
+
+    <style name="text_dialog_title">
+        <item name="android:textSize">18.0dip</item>
+        <item name="android:textColor">#ff25DAB6</item>
+    </style>
+
+</resources>

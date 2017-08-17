@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 主色调和前景色start############################################ -->
+    <!-- 界面背景色 -->
+    <color name="activity_bg">#e0e0e0</color>
+    <!-- 主色调和前景色 -->
+    <color name="main">#32c9c9</color>
+    <color name="main_fg">#ffffff</color>
+    <!-- 定义表单的颜色，提交给服务器的表单start############################################ -->
+    <color name="from_bg">#ffffff</color>
+    <color name="from_line">#a0a0a0</color>
+    <color name="from_textColor">#000000</color>
+    <!-- 定义表单的文本颜色 -->
+    <color name="from_tvbtn_textColor">#ffffff</color>
+    <!-- 定义超链接的颜色start######################################################### -->
+    <color name="link_textColor">#32c9c9</color>
+
+    <!-- List############################################ -->
+    <!-- List显示的按钮尺寸定义 -->
+    <color name="list_tvbtn_textColor">#ffffff</color>
+    <!-- list风格定义 -->
+    <color name="list_background">#ffffff</color>
+      <!--公共控件############################################ -->
+     <!-- 用textview模拟button的属性定义-->
+     <color name="common_tv_button_textColor">#ffffff</color>	
+     
+     <!-- 用textview公共返回控件的属性定义-->
+     <color name="common_head_title_textColor">#ffffff</color>  
+     <color name="common_tv_back_textColor">#32c9c9</color>  
+          <!--head尺寸定义-->
+      <color name="head_background">#404040</color> 
+      <color name="head_line_background">#000000</color> 
+      <color name="head_textColor">#ffffff</color> 
+      
+      
+      <!-- 菜单背景色 -->
+      <color name="menu_background">#494650</color>
+      <!-- 菜单项背景色 -->
+      <color name="menu_item_background">#3B3E43</color>
+      <!--顶部到导航栏 背景色  -->
+      <color name="actionbar_background">#25DAB6</color>
+      <!-- 白色 -->
+      <color name="white">#FFFFFF</color>
+      <!--停车场详情界面的背景  -->
+      <color name="park_detail_bg">#EEEEEE</color>      
+      <!-- Citylist item按下的改变颜色 -->
+      <color name="listview_item_normal">#eef0ed</color>
+      <color name="listview_item_pressed">#d4d4d4</color>
+      
+     <!-- HeHeHeHeHe -->
+		<color name="grayPress">#DEDEDE</color>
+		<color name="grayLine">#D3D3D3</color>
+		<color name="pressed_blue">#3afad4</color>
+		<color name="unpressed_blue">#25DAB6</color>
+		<color name="theme_color">#25DAB6</color>
+		<color name="Text_blue">#40E0D0</color>
+		<color name="Text_black">#000000</color>
+		<color name="Text_red">#FF0000</color>
+		<color name="Text_gray_dark">#8B8878</color>
+		<color name="Text_gray_light">#D3D3D3</color>
+		
+		<!-- hehehehe登录/注册界面按键/字体颜色 -->
+		<color name="b_lr_color">#ffffff</color>
+		<color name="et_lg_color">#555555</color>    
+		<!--RentActivity界面  字体默认颜色  -->
+		<color name="a_rent_text_default">#A6A6A6</color>
+		<!--LesseeListActivity界面 价格的颜色  -->
+		<color name="price_text">#FF8C69</color>
+		<!--LesseeListActivity界面 距离的颜色  -->
+		<color name="center_dist_text">#FF8C69</color>
+
+      
+</resources>
