@@ -2,11 +2,11 @@
 <manifest package="key.android.demo.FitDemo"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <supports-screens
+<!--    <supports-screens
         android:anyDensity="false"
         android:largeScreens="false"
         android:normalScreens="false"
-        android:smallScreens="false"/>
+        android:smallScreens="false"/>-->
 
     <application
         android:allowBackup="true"
