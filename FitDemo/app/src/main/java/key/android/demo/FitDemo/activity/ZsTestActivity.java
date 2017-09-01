@@ -1,8 +1,10 @@
 package key.android.demo.FitDemo.activity;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -30,6 +32,9 @@ public class ZsTestActivity extends Activity {
                 int i = 0;
             }
         });
+        final ContentResolver cr = getContentResolver();
+        String strGo3 = Settings.Global.getString(cr, "dji_fps_go4_enable");
+        String strGo4 = Settings.Global.getString(cr, "dji_fps_go4_enable");
 
     }
 }
