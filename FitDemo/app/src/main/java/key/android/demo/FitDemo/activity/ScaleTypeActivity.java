@@ -27,5 +27,9 @@ public class ScaleTypeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scale_type);
         //ImageView
+        String str=null;
+        if(str == null){
+            int ii = 0;
+        }
     }
 }

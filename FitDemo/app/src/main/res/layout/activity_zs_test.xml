@@ -11,6 +11,7 @@
         android:id="@+id/test_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerCrop"
         android:src="@drawable/main_device_mammoth"/>
     <TextView
         android:layout_width="match_parent"

@@ -30,6 +30,10 @@ public class ZsTestActivity extends Activity {
                 //xx:360*640:2.5M
                 //  Log.e("ZsTestActivity","w="+d.getH)
                 int i = 0;
+                String str=null;
+                if(str == null){
+                    int ii = 0;
+                }
             }
         });
         final ContentResolver cr = getContentResolver();
