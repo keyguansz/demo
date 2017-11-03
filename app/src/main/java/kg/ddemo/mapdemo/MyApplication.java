@@ -1,4 +1,4 @@
-package tiny.args.prof.dji.mapdemo;
+package tiny.args.prof.K.mapdemo;
 
 import android.app.Application;
 import android.os.RemoteException;
@@ -15,7 +15,7 @@ import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
 import org.xutils.HttpManager;
 
-import tiny.args.prof.dji.mapdemo.util.CrashHandlerUtil;
+import mapdemo.util.CrashHandlerUtil;
 
 /**
 * <p>ClassName:MyApplication类</p>

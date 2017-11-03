@@ -1,4 +1,4 @@
-package tiny.args.prof.dji.mapdemo.util;
+package tiny.args.prof.K.mapdemo.util;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

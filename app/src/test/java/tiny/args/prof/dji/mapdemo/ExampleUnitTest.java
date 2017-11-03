@@ -1,4 +1,4 @@
-package tiny.args.prof.dji.mapdemo;
+package mapdemo;
 
 import org.junit.Test;
 
